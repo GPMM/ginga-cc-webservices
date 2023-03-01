@@ -1,4 +1,4 @@
-FROM node:8.11-alpine
+FROM node:18
 
 WORKDIR /usr/src/app
 
@@ -10,6 +10,6 @@ RUN npm install
 
 COPY . /usr/src/app
 
-ENV PORT 5000
-EXPOSE $PORT
+ENV GINGACCWSPORT 44642
+EXPOSE $GINGACCWSPORT
 CMD [ "npm", "start" ]

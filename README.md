@@ -1,17 +1,11 @@
-### Node Express template project
+### Ginga CC WebServices
 
-This project is based on a GitLab [Project Template](https://docs.gitlab.com/ee/gitlab-basics/create-project.html).
+This project is a partial implementation of Ginga CC WebServices for the TV 3.0
+Project. It was created as part of UFJF developments for the validation of APIs
+and architecture for a decoupled player supporting MPEG-H immersive audio and 
+other media formats.
 
-Improvements can be proposed in the [original project](https://gitlab.com/gitlab-org/project-templates/express).
+Ginga CC WebServices APIs are specified in ABNT NBR 15606-11. However, only 
+APIs applicable to TV 3.0 use cases are included in this project.
 
-### CI/CD with Auto DevOps
-
-This template is compatible with [Auto DevOps](https://docs.gitlab.com/ee/topics/autodevops/).
-
-If Auto DevOps is not already enabled for this project, you can [turn it on](https://docs.gitlab.com/ee/topics/autodevops/#enabling-auto-devops) in the project settings.
-
-### Developing with Gitpod
-
-This template has a fully-automated dev setup for [Gitpod](https://docs.gitlab.com/ee/integration/gitpod.html).
-
-If you open this project in Gitpod, you'll get all Node dependencies pre-installed and Express will open a web preview.
+Initial files structure and source code created from [Node Express GitLab template](https://gitlab.com/gitlab-org/project-templates/express).

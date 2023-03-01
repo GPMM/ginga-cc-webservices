@@ -5,14 +5,14 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('demo:server');
+var debug = require('debug')('ginga-cc-ws:server');
 var http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.GINGACCWSPORT || '44642');
 app.set('port', port);
 
 /**
