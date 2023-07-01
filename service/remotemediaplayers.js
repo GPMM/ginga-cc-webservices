@@ -1,5 +1,7 @@
 const { WebSocket, WebSocketServer } = require('ws');
 const http = require('http');
+const uuidv4 = require('uuid').v4;
+const envConfig = require('../config/env');
 
 const createWebSocket = (carouselid) => {
     const server = http.createServer();
@@ -13,11 +15,19 @@ const createWebSocket = (carouselid) => {
         console.log(`${carouselid} connected.`);
         connection.on('message', (message) => handleMessage(message, connection));
     });
+
+    const url = envConfig.client.webSocketUrl + ":" + port
+    return createResponseBody(url, uuidv4());
 }
 
 const generateDynamicallyPort = () => {
     return Math.floor(1000 + Math.random() * 9000);
 }
+
+const createResponseBody = (uuid, url) => ({
+    handle: uuid,
+    url: url
+});
 
 function broadcastMessage(json, connection) {
     const data = JSON.stringify(json);
