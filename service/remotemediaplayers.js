@@ -17,7 +17,7 @@ const createWebSocket = (carouselid) => {
     });
 
     const url = envConfig.client.webSocketUrl + ":" + port
-    return createResponseBody(url, uuidv4());
+    return createResponseBody(uuidv4(), url);
 }
 
 const generateDynamicallyPort = () => {
