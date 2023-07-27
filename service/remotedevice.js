@@ -3,21 +3,22 @@ const http = require('http');
 const uuidv4 = require('uuid').v4;
 const envConfig = require('../config/env');
 
-const createWebSocket = (carouselid) => {
+const createWebSocket = (body) => {
     const server = http.createServer();
     const wsServer = new WebSocketServer({ server });
     const port = generateDynamicallyPort();
+    const uuid = uuidv4();
     server.listen(port, () => {
         console.log(`WebSocket server is running on port ${port}`);
     });
 
     wsServer.on('connection', function (connection) {
-        console.log(`${carouselid} connected.`);
+        console.log(`${uuid} connected.`);
         connection.on('message', (message) => handleMessage(message, connection));
     });
 
     const url = envConfig.client.webSocketUrl + ":" + port
-    return createResponseBody(uuidv4(), url);
+    return createResponseBody(uuid, url);
 }
 
 const generateDynamicallyPort = () => {

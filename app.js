@@ -6,7 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var mediaPlayersRouter = require('./routes/mediaplayers');
-var remoteMediaPlayersRouter = require('./routes/remotemediaplayers');
+var remoteDeviceRouter = require('./routes/remotedevice');
 
 var app = express();
 
@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/dtv/mediaplayers', mediaPlayersRouter);
-app.use('/dtv/remote-mediaplayer', remoteMediaPlayersRouter);
+app.use('/dtv/remote-device', remoteDeviceRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

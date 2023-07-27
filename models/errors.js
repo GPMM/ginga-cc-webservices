@@ -7,6 +7,10 @@ const Errors = [
         "error": 105,
         "description": "Illegal argument carousel id value"
     },
+    {
+        "error": 106,
+        "description": "Request without body"
+    },
 ];
 
 exports.getError = (number) => {
