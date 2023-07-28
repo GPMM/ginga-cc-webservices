@@ -3,6 +3,8 @@ const http = require('http');
 const uuidv4 = require('uuid').v4;
 const envConfig = require('../config/env');
 
+const clients = {};
+
 const createWebSocket = (body) => {
     const server = http.createServer();
     const wsServer = new WebSocketServer({ server });
@@ -15,10 +17,26 @@ const createWebSocket = (body) => {
     wsServer.on('connection', function (connection) {
         console.log(`${uuid} connected.`);
         connection.on('message', (message) => handleMessage(message, connection));
+        connection.on('close', () => {
+            wsServer.close();
+        });
     });
+
+    clients[uuid] = wsServer;
 
     const url = envConfig.client.webSocketUrl + ":" + port
     return createResponseBody(uuid, url);
+}
+
+const deleteWebSocket = (handle) => {
+    let client = clients[handle];
+    if (client) {
+        client.clients.forEach((socket) => {
+            socket.close();
+        });
+        delete clients[handle];
+    }
+    return;
 }
 
 const generateDynamicallyPort = () => {
@@ -43,5 +61,6 @@ function handleMessage(message, connection) {
 }
 
 module.exports = {
-    createWebSocket
+    createWebSocket,
+    deleteWebSocket
 }

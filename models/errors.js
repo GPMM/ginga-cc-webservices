@@ -5,7 +5,7 @@ const Errors = [
     },
     {
         "error": 105,
-        "description": "Illegal argument carousel id value"
+        "description": "Illegal argument handle value"
     },
     {
         "error": 106,
