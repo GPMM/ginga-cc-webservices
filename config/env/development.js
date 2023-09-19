@@ -9,6 +9,7 @@ const utils = {
 module.exports = {
     env,
     client: {
-        webSocketUrl: utils.parseAttrFromObject(process.env, 'WEB_SOCKET_URL', 'ws://localhost').string()
+        webSocketUrl: utils.parseAttrFromObject(process.env, 'WEB_SOCKET_URL', 'ws://localhost').string(),
+		gingaSocketUrl: utils.parseAttrFromObject(process.env, 'GINGA_SOCKET_URL', 'ws://localhost:9090').string()
     }
 };

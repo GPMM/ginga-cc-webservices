@@ -2,27 +2,33 @@ const { WebSocket, WebSocketServer } = require('ws');
 const http = require('http');
 const uuidv4 = require('uuid').v4;
 const envConfig = require('../config/env');
+const ginga = require('./ginga');
 
 const clients = {};
+// const ginga = new WebSocket("ws://localhost:9090");
+// ginga.on('message', message => FromGinga(message));
 
 const createWebSocket = (body) => {
     const server = http.createServer();
     const wsServer = new WebSocketServer({ server });
     const port = generateDynamicallyPort();
     const uuid = uuidv4();
+	
     server.listen(port, () => {
         console.log(`WebSocket server is running on port ${port}`);
     });
 
     wsServer.on('connection', function (connection) {
         console.log(`${uuid} connected.`);
+		
+		connection.id = uuid;
         connection.on('message', (message) => handleMessage(message, connection));
         connection.on('close', () => {
             wsServer.close();
         });
+		
+		clients[uuid] = connection;
     });
-
-    clients[uuid] = wsServer;
 
     const url = envConfig.client.webSocketUrl + ":" + port
     return createResponseBody(uuid, url);
@@ -31,9 +37,7 @@ const createWebSocket = (body) => {
 const deleteWebSocket = (handle) => {
     let client = clients[handle];
     if (client) {
-        client.clients.forEach((socket) => {
-            socket.close();
-        });
+		client.close();
         delete clients[handle];
     }
     return;
@@ -48,16 +52,33 @@ const createResponseBody = (uuid, url) => ({
     url: url
 });
 
-function broadcastMessage(json, connection) {
-    const data = JSON.stringify(json);
-    if (connection.readyState === WebSocket.OPEN) {
-        connection.send(data);
-    }
-}
+ginga.registerHandler('remotedevice', function (handle, message) {
+	let client = clients[handle];
+	if (client) {
+		client.send(JSON.stringify(message));
+	}
+});
 
-function handleMessage(message, connection) {
-    const dataFromClient = JSON.parse(message.toString());
-    broadcastMessage(dataFromClient, connection);
+// function FromGinga(message) {
+// 	const dataFromGinga = JSON.parse(message.toString());
+//
+// 	console.log(`message from ginga to ${dataFromGinga.handle}.`);
+// 	let client = clients[dataFromGinga.handle];
+// 	if (client) {
+// 		client.send(JSON.stringify(dataFromGinga.message));
+// 	}
+// }
+
+function handleMessage(message, client) {
+    const uuid = client.id;
+	const dataFromClient = JSON.parse(message.toString());
+	
+	console.log(`client ${uuid} sent message.`);
+	ginga.sendMessage(uuid, dataFromClient);
+	//     ginga.send(JSON.stringify({
+	// 	handle: uuid,
+	// 	message: dataFromClient
+	// }));
 }
 
 module.exports = {
