@@ -5,8 +5,6 @@ const envConfig = require('../config/env');
 const ginga = require('./ginga');
 
 const clients = {};
-// const ginga = new WebSocket("ws://localhost:9090");
-// ginga.on('message', message => FromGinga(message));
 
 const createWebSocket = (body) => {
     const server = http.createServer();
@@ -59,26 +57,12 @@ ginga.registerHandler('remotedevice', function (handle, message) {
 	}
 });
 
-// function FromGinga(message) {
-// 	const dataFromGinga = JSON.parse(message.toString());
-//
-// 	console.log(`message from ginga to ${dataFromGinga.handle}.`);
-// 	let client = clients[dataFromGinga.handle];
-// 	if (client) {
-// 		client.send(JSON.stringify(dataFromGinga.message));
-// 	}
-// }
-
 function handleMessage(message, client) {
     const uuid = client.id;
 	const dataFromClient = JSON.parse(message.toString());
 	
 	console.log(`client ${uuid} sent message.`);
 	ginga.sendMessage(uuid, dataFromClient);
-	//     ginga.send(JSON.stringify({
-	// 	handle: uuid,
-	// 	message: dataFromClient
-	// }));
 }
 
 module.exports = {

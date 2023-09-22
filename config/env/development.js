@@ -10,6 +10,6 @@ module.exports = {
     env,
     client: {
         webSocketUrl: utils.parseAttrFromObject(process.env, 'WEB_SOCKET_URL', 'ws://localhost').string(),
-		gingaSocketUrl: utils.parseAttrFromObject(process.env, 'GINGA_SOCKET_URL', 'ws://localhost:9090').string()
+		gingaSockePort: utils.parseAttrFromObject(process.env, 'GINGA_SOCKET_PORT', '8085').string()
     }
 };

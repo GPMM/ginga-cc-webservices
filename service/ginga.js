@@ -1,11 +1,20 @@
 const WebSocket = require('ws');
 const envConfig = require('../config/env');
 
-
-const ginga = new WebSocket(envConfig.client.gingaSocketUrl);
-ginga.on('message', message => handleMessage(message));
-
 var remoteDeviceHandler = null;
+var ginga = null;
+
+
+const gwss = new WebSocket.Server({ port: envConfig.client.gingaSockePort }, () => {
+    console.log(`Ginga WebSocket iniciado na porta ${envConfig.client.gingaSockePort}`);
+});
+
+gwss.on('connection', function (connection) {
+    console.log('ginga connected.');
+	ginga = connection;
+	ginga.on('message', message => handleMessage(message));
+    ginga.on('close', () => { gwss.close(); });
+});
 
 
 function handleMessage(message) {
@@ -31,7 +40,7 @@ function sendMessage(uuid, msg) {
 function registerHandler(type, handler) {
 	if (type == 'remotedevice') {
 		remoteDeviceHandler = handler;
-	    sendServiceStatus(type, 'on');
+	    // sendServiceStatus(type, 'on');
 	}
 }
 
