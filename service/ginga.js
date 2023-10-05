@@ -2,6 +2,7 @@ const WebSocket = require('ws');
 const envConfig = require('../config/env');
 
 var remoteDeviceHandler = null;
+var appFileHandler = null;
 var ginga = null;
 
 
@@ -25,6 +26,10 @@ function handleMessage(message) {
 		// message to remote device client
 		remoteDeviceHandler(dataFromGinga.handle, dataFromGinga.message);
 	}
+	else if (service == 'appfiles') {
+		// update path for application files api
+		appFileHandler(dataFromGinga.appid, dataFromGinga.path);
+	}
 }
 
 
@@ -40,16 +45,10 @@ function sendMessage(uuid, msg) {
 function registerHandler(type, handler) {
 	if (type == 'remotedevice') {
 		remoteDeviceHandler = handler;
-	    // sendServiceStatus(type, 'on');
 	}
-}
-
-
-function sendServiceStatus(name, status) {
-    ginga.send(JSON.stringify({
-		service: name,
-		status: status
-	}));
+	else if (type == 'appfiles') {
+		appFileHandler = handler;
+	}
 }
 
 

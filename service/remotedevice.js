@@ -12,7 +12,7 @@ const createWebSocket = (body) => {
     const port = generateDynamicallyPort();
     const uuid = uuidv4();
 	
-    server.listen(port, () => {
+	server.listen(port, () => {
         console.log(`WebSocket server is running on port ${port}`);
     });
 
@@ -27,6 +27,8 @@ const createWebSocket = (body) => {
 		
 		clients[uuid] = connection;
     });
+	
+	handleRegister(uuid, body);
 
     const url = envConfig.client.webSocketUrl + ":" + port
     return createResponseBody(uuid, url);
@@ -56,6 +58,12 @@ ginga.registerHandler('remotedevice', function (handle, message) {
 		client.send(JSON.stringify(message));
 	}
 });
+
+
+function handleRegister(uuid, body) {
+	ginga.sendMessage(uuid, body);
+}
+
 
 function handleMessage(message, client) {
     const uuid = client.id;

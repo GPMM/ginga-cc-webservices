@@ -2,7 +2,7 @@ const remotedeviceService = require('../service/remotedevice');
 
 exports.POSTRemoteDevice = (req, res, next) => {
     const body = req.body;
-    if (!body) {
+    if (!body || !body.deviceClass || !body.supportedFormats || !body.recognizableEvents) {
         res.status(400).json(Errors.getError(106));
     }
     response = remotedeviceService.createWebSocket(body);
