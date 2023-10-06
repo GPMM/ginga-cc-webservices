@@ -3,6 +3,7 @@ const envConfig = require('../config/env');
 
 var remoteDeviceHandler = null;
 var appFileHandler = null;
+var userAPIHandler = null;
 var ginga = null;
 
 
@@ -30,6 +31,10 @@ function handleMessage(message) {
 		// update path for application files api
 		appFileHandler(dataFromGinga.appid, dataFromGinga.path);
 	}
+	else if (service == 'userapi') {
+		// update path for user data
+		userAPIHandler(dataFromGinga.path, dataFromGinga.current);
+	}
 }
 
 
@@ -42,6 +47,14 @@ function sendMessage(uuid, msg) {
 }
 
 
+function updateCurrentUser(uid) {
+    ginga.send(JSON.stringify({
+		service: 'userapi',
+		current: uid
+	}));
+}
+
+
 function registerHandler(type, handler) {
 	if (type == 'remotedevice') {
 		remoteDeviceHandler = handler;
@@ -49,10 +62,14 @@ function registerHandler(type, handler) {
 	else if (type == 'appfiles') {
 		appFileHandler = handler;
 	}
+	else if (type == 'userapi') {
+		userAPIHandler = handler;
+	}
 }
 
 
 module.exports = {
     registerHandler,
-    sendMessage
+    sendMessage,
+	updateCurrentUser
 }
