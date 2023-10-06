@@ -12,3 +12,18 @@ between the Ginga runtime engines and the media player, as well as in the contex
 application switching.
 
 Initial files structure and source code created from [Node Express GitLab template](https://gitlab.com/gitlab-org/project-templates/express).
+
+
+### Running
+
+For the first time running the project:
+```
+$ npm install
+$ npm audit fix
+```
+
+Running in development mode
+```
+$ export NODE_ENV=development
+$ npm start
+```
