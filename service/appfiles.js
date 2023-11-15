@@ -9,6 +9,8 @@ var base_path = null;
 ginga.registerHandler('appfiles', function (appid, path) {
 	running_app_id = appid;
 	base_path = path;
+
+	console.log(`Set application id ${running_app_id} in location ${base_path}.`);
 });
 
 
@@ -23,13 +25,13 @@ function getFile(appid, fpath) {
 	var file_ext = path.extname(file_name);
 	
 	var stat = fs.statSync(file_path);
-	var file = fs.readFileSync(file_path, 'binary');
 	
 	return {
 		size: stat.size,
 		mime: GetMime(file_ext),
+		type: GetType(file_ext),
 		name: file_name,
-		file: file
+		path: file_path
 	}
 }
 
@@ -67,6 +69,43 @@ function GetMime(file_ext) {
 	// others
 	else {
 		return 'application/octet-stream';
+	}
+}
+
+
+function GetType(file_ext) {
+	// video
+	if (file_ext == '.mpeg') {
+		return 'video';
+	}
+	else if (file_ext == '.mp4') {
+		return 'video';
+	}
+	// audio
+	else if (file_ext == '.mp3') {
+		return 'audio';
+	}
+	else if (file_ext == '.ogg') {
+		return 'audio';
+	}
+	// text
+	else if (file_ext == '.txt') {
+		return 'text';
+	}
+	// images
+	else if (file_ext == '.jpeg' || file_ext == '.jpg') {
+		return 'image';
+	}
+	else if (file_ext == '.png') {
+		return 'image';
+	}
+	// 3D object
+	else if (file_ext == '.obj') {
+		return 'model';
+	}
+	// others
+	else {
+		return 'application';
 	}
 }
 
