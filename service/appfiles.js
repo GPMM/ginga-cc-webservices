@@ -6,12 +6,12 @@ var running_app_id = null;
 var base_path = null; 
 
 
-ginga.registerHandler('appfiles', function (appid, path) {
+function setAppData(appid, path) {
 	running_app_id = appid;
 	base_path = path;
 
 	console.log(`Set application id ${running_app_id} in location ${base_path}.`);
-});
+}
 
 
 function validateAppId(appid) {
@@ -111,6 +111,7 @@ function GetType(file_ext) {
 
 
 module.exports = {
+	setAppData,
 	validateAppId,
 	getFile
 }

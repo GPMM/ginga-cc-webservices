@@ -1,9 +1,9 @@
 const WebSocket = require('ws');
 const envConfig = require('../config/env');
+const appl = require('./appfiles');
+const user = require('./userapi');
 
 var remoteDeviceHandler = null;
-var appFileHandler = null;
-var userAPIHandler = null;
 var ginga = null;
 
 
@@ -29,11 +29,11 @@ function handleMessage(message) {
 	}
 	else if (service == 'appfiles') {
 		// update path for application files api
-		appFileHandler(dataFromGinga.appid, dataFromGinga.path);
+		appl.setAppData(dataFromGinga.appid, dataFromGinga.path);
 	}
 	else if (service == 'userapi') {
 		// update path for user data
-		userAPIHandler(dataFromGinga.path, dataFromGinga.current);
+		user.setUserData(dataFromGinga.path, dataFromGinga.currentUser, dataFromGinga.currentService)
 	}
 }
 
@@ -55,21 +55,13 @@ function updateCurrentUser(uid) {
 }
 
 
-function registerHandler(type, handler) {
-	if (type == 'remotedevice') {
-		remoteDeviceHandler = handler;
-	}
-	else if (type == 'appfiles') {
-		appFileHandler = handler;
-	}
-	else if (type == 'userapi') {
-		userAPIHandler = handler;
-	}
+function registerHandler(handler) {
+	remoteDeviceHandler = handler;
 }
 
 
 module.exports = {
-    registerHandler,
+	registerHandler,
     sendMessage,
 	updateCurrentUser
 }

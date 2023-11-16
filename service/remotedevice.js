@@ -52,7 +52,8 @@ const createResponseBody = (uuid, url) => ({
     url: url
 });
 
-ginga.registerHandler('remotedevice', function (handle, message) {
+
+ginga.registerHandler(function (handle, message) {
 	let client = clients[handle];
 	if (client) {
 		client.send(JSON.stringify(message));
@@ -72,6 +73,7 @@ function handleMessage(message, client) {
 	console.log(`client ${uuid} sent message.`);
 	ginga.sendMessage(uuid, dataFromClient);
 }
+
 
 module.exports = {
     createWebSocket,
