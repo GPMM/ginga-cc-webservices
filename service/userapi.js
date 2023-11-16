@@ -6,16 +6,18 @@ const jsonata = require('jsonata');
 var user_data_path = null;
 var user_data = null;
 var current_user = null;
+var current_service = null;
 
 
-ginga.registerHandler('userapi', function (fpath, current) {
+function setUserData(fpath, current, service) {
 	user_data_path = fpath;
 	current_user = current;
+	current_service = service;
 
 	let file_path = path.join(user_data_path, 'userData.json');
 	let rawdata = fs.readFileSync(file_path);
 	user_data = JSON.parse(rawdata);
-});
+}
 
 
 async function getUserList(body) {
@@ -26,25 +28,38 @@ async function getUserList(body) {
 
 
 function getExpression(body) {
-	let exp = 'users';
+	let exp = `users['${current_service}' in accessConsent`;
 	if (body.and || body.or || body.attribute) {
 		// parse the body to construct query
-		exp += `[${parseExpression(body)}]`;
+		exp += ` and ${parseExpression(body)}`;
 	}
-	exp += "{ 'users': [$.{ 'id': id, 'name': name, 'icon': icon }] }";
+	exp += "]{ 'users': [$.{ 'id': id }] }";
 	return exp;
 }
 
 
 function parseExpression(exp) {
 	if (exp.attribute) {
-		return exp.attribute + parseComparator(exp.comparator) + `'${exp.value}'`;
+		return exp.attribute + parseComparator(exp.comparator) + parseValue(exp.attribute, exp.value);
 	}
 	else if (exp.and) {
 		return parseArray(exp.and, 'and');
 	}
 	else if (exp.or) {
 		return parseArray(exp.or, 'or');
+	}
+}
+
+
+function parseValue(att, val) {
+	if (att == 'age') {
+		return val;
+	}
+	else if (val == 'true' || val == 'false') {
+		return val;
+	}
+	else {
+		return `'${val}'`
 	}
 }
 
@@ -70,9 +85,9 @@ function parseComparator(cmp) {
 
 
 async function getUserAttribute(uid, atname) {
-	let exp = `users[id='${uid}']`;
+	let exp = `users['${current_service}' in accessConsent and id='${uid}']`;
 	if (atname) {
-		exp = `users[id='${uid}'].${atname}`;
+		exp = `users['${current_service}' in accessConsent and id='${uid}'].${atname}`;
 	}
 	let expression = jsonata(exp);
 	let result = await expression.evaluate(user_data);
@@ -81,7 +96,7 @@ async function getUserAttribute(uid, atname) {
 
 
 async function getCurrentUser() {
-	let exp = `users[id='${current_user}'].{ 'id': id, 'name': name, 'icon': icon }`;
+	let exp = `users['${current_service}' in accessConsent and id='${current_user}'].{ 'id': id }`;
 	let expression = jsonata(exp);
 	let result = await expression.evaluate(user_data);
 	return result;
@@ -91,6 +106,14 @@ async function getCurrentUser() {
 function setCurrentUser(uid) {
 	current_user = uid;
 	ginga.updateCurrentUser(uid);
+}
+
+
+async function checkConsent(fpath) {
+	let exp = `users['${current_service}' in accessConsent and avatar='${fpath}'] != null`;
+	let expression = jsonata(exp);
+	let result = await expression.evaluate(user_data);
+	return result;
 }
 
 
@@ -127,9 +150,11 @@ function GetMime(file_ext) {
 
 
 module.exports = {
+	setUserData,
 	getUserList,
 	getUserAttribute,
 	getCurrentUser,
 	setCurrentUser,
+	checkConsent,
 	getFile
 }

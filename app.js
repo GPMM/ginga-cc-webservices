@@ -26,7 +26,7 @@ app.use('/', indexRouter);
 app.use('/dtv/mediaplayers', mediaPlayersRouter);
 app.use('/dtv/remote-device', remoteDeviceRouter);
 app.use('/dtv/current-service/apps', appFilesRouter);
-app.use('/dtv/user-api', userAPIRouter);
+app.use('/dtv/current-service/user-api', userAPIRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
