@@ -1,3 +1,4 @@
+var Errors = require("../models/errors");
 const userService = require('../service/userapi');
 
 exports.POSTUserList = (req, res, next) => {
@@ -33,22 +34,24 @@ exports.POSTCurrentUser = (req, res, next) => {
 };
 
 
-exports.GETUserFile = async (req, res, next) => {
+exports.GETUserFile = (req, res, next) => {
     if (Object.keys(req.query).length == 0) {
-		res.status(400).json(Errors.getError(305));
+		res.status(400).json(Errors.getError(105));
 	}
 
-	let result = await userService.checkConsent(req.query.path);
-	if (!result) {
-		res.sendStatus(400);
-	}
-	else {
-		file_data = userService.getFile(req.query.path);
-	
-		res.setHeader('Content-Length', file_data.size);
-		res.setHeader('Content-Type', file_data.mime);
-		res.setHeader('Content-Disposition', `attachment; filename=${file_data.name}`);
-		res.write(file_data.file, 'binary');
-		res.end();
-	}
+	userService.checkConsent(req.query.path)
+	.then((result) => {
+		if (!result) {
+			res.status(400).json(Errors.getError(305));
+		}
+		else {
+			file_data = userService.getFile(req.query.path);
+		
+			res.setHeader('Content-Length', file_data.size);
+			res.setHeader('Content-Type', file_data.mime);
+			res.setHeader('Content-Disposition', `attachment; filename=${file_data.name}`);
+			res.write(file_data.file, 'binary');
+			res.end();
+		}
+	})
 };

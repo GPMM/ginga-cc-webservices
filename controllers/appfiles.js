@@ -1,3 +1,4 @@
+var Errors = require("../models/errors");
 const fs = require('fs');
 const appFilesService = require('../service/appfiles');
 
