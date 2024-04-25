@@ -39,6 +39,8 @@ function handleMessage(message) {
 
 
 function sendMessage(uuid, msg) {
+	if (ginga == null) return;
+	
     ginga.send(JSON.stringify({
 		service: 'remotedevice',
 		handle: uuid,
@@ -48,6 +50,8 @@ function sendMessage(uuid, msg) {
 
 
 function updateCurrentUser(uid) {
+	if (ginga == null) return;
+	
     ginga.send(JSON.stringify({
 		service: 'userapi',
 		current: uid

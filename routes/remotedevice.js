@@ -4,7 +4,7 @@ var router = express.Router();
 
 /* Remode media player API */
 /* 8.3.9 */
-router.post('/', RemoteDeviceController.POSTRemoteDevice);
+router.post('/:handle?', RemoteDeviceController.POSTRemoteDevice);
 router.delete('/:handle', RemoteDeviceController.DELETERemoteDevice);
 
 module.exports = router;
