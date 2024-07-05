@@ -22,14 +22,16 @@ const createWebSocket = (body) => {
 		connection.id = uuid;
         connection.on('message', (message) => handleMessage(message, connection));
         connection.on('close', () => {
-            wsServer.close();
+            console.log(`${uuid} disconnected.`);
+            // wsServer.close();
         });
 		
 		clients[uuid] = connection;
     });
 	
 	handleRegister(uuid, body);
-
+    console.log(`Client ${uuid} registered.`);
+    
     const url = envConfig.client.webSocketUrl + ":" + port
     return createResponseBody(uuid, url);
 }
@@ -39,6 +41,7 @@ const deleteWebSocket = (handle) => {
     if (client) {
 		client.close();
         delete clients[handle];
+        console.log(`Client ${uuid} unregistered.`);
     }
     return;
 }
