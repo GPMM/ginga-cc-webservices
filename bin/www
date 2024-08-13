@@ -7,7 +7,6 @@
 var app = require('../app');
 var debug = require('debug')('ginga-cc-ws:server');
 var http = require('http');
-var mdns = require('mdns');
 
 /**
  * Get port from environment and store in Express.
@@ -90,6 +89,4 @@ function onListening() {
   debug('Listening on ' + bind);
   
   console.log(`Ginga WebService iniciado na porta ${port}`);
-  const ad = mdns.createAdvertisement(mdns.tcp('Ginga'), port);
-  ad.start();
 }
