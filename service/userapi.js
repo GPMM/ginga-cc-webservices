@@ -17,6 +17,7 @@ function setUserData(fpath, current, service) {
 	let file_path = path.join(user_data_path, 'userData.json');
 	let rawdata = fs.readFileSync(file_path);
 	user_data = JSON.parse(rawdata);
+    console.log(`Set user base data ${user_data_path}, current user to ${current_user}, and service ${current_service}.`);
 }
 
 
