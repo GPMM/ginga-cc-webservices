@@ -60,6 +60,7 @@ ginga.registerHandler(function (handle, message) {
 	let client = clients[handle];
 	if (client) {
 		client.send(JSON.stringify(message));
+        console.log(`Message to ${handle}\n${JSON.stringify(message)}`);
 	}
 });
 

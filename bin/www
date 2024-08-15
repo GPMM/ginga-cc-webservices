@@ -77,6 +77,8 @@ function onError(error) {
   }
 }
 
+const envConfig = require('../config/env');
+
 /**
  * Event listener for HTTP server "listening" event.
  */
@@ -89,4 +91,6 @@ function onListening() {
   debug('Listening on ' + bind);
   
   console.log(`Ginga WebService iniciado na porta ${port}`);
+
+  console.log(`/config/env/development.js:WEB_SOCKET_URL ${envConfig.client.webSocketUrl}`);
 }
