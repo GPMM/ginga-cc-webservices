@@ -74,7 +74,7 @@ function handleMessage(message, client) {
     const uuid = client.id;
 	const dataFromClient = JSON.parse(message.toString());
 	
-	console.log(`client ${uuid} sent message.`);
+	console.log(`client ${uuid} sent message\n ${message.toString()}`);
 	ginga.sendMessage(uuid, dataFromClient);
 }
 
