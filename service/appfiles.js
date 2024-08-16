@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const ginga = require('./ginga');
 
-var running_app_id = null;
+var running_app_id = 100;
 var base_path = null; 
 
 
@@ -20,7 +20,13 @@ function validateAppId(appid) {
 
 
 function getFile(appid, fpath) {
-	var file_path = path.join(base_path, fpath);
+	var file_path = fpath;
+	if (base_path != null){
+		file_path = path.join(base_path, fpath);
+	}
+	if (file_path.startsWith('file:')) {
+		file_path = file_path.substring(7);
+	}
 	var file_name = path.parse(file_path).base;
 	var file_ext = path.extname(file_name);
 	
