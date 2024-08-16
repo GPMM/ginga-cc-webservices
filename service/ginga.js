@@ -40,11 +40,13 @@ function handleMessage(message) {
 function sendMessage(uuid, msg) {
 	if (ginga == null) return;
 	
-    ginga.send(JSON.stringify({
+	const dataFromClient = {
 		service: 'remotedevice',
 		handle: uuid,
 		message: msg
-	}));
+	};
+	console.log(JSON.stringify(dataFromClient));
+    ginga.send(JSON.stringify(dataFromClient));
 }
 
 
