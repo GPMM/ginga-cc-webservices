@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const envConfig = require('../config/env');
 const ginga = require('./ginga');
 const jsonata = require('jsonata');
 
@@ -7,6 +8,7 @@ var user_data_path = null;
 var user_data = null;
 var current_user = null;
 var current_service = null;
+setUserData(envConfig.client.usrFilePath, envConfig.client.currentUser, envConfig.client.currentService);
 
 
 function setUserData(fpath, current, service) {

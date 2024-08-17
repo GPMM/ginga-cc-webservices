@@ -1,9 +1,11 @@
 const path = require('path');
 const fs = require('fs');
+const envConfig = require('../config/env');
 const ginga = require('./ginga');
 
 var running_app_id = null;
 var base_path = null; 
+setAppData(envConfig.client.appID, envConfig.client.appBaseURL);
 
 
 function setAppData(appid, path) {

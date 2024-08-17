@@ -15,6 +15,9 @@ gwss.on('connection', function (connection) {
     console.log('ginga connected.');
 	ginga = connection;
 	ginga.on('message', message => handleMessage(message));
+    ginga.on('close', () => {
+        console.log('ginga disconnected.');
+    });
 });
 
 

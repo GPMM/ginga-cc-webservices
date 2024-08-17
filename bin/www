@@ -92,5 +92,5 @@ function onListening() {
   
   console.log(`Ginga WebService iniciado na porta ${port}`);
 
-  console.log(`/config/env/development.js:WEB_SOCKET_URL ${envConfig.client.webSocketUrl}`);
+  console.log(`/config/env/development.js:SERVER_URL ${envConfig.client.serverURL}`);
 }

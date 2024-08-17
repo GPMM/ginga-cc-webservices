@@ -10,7 +10,7 @@ const createWebSocket = (body) => {
     const server = http.createServer();
     const wsServer = new WebSocketServer({ server });
     const port = generateDynamicallyPort();
-    const uuid = uuidv4();
+    const uuid = envConfig.client.defaultUUID || uuidv4();
 	
 	server.listen(port, () => {
         console.log(`WebSocket server is running on port ${port}`);
@@ -32,7 +32,7 @@ const createWebSocket = (body) => {
 	handleRegister(uuid, body);
     console.log(`Client ${uuid} registered.`);
     
-    const url = envConfig.client.webSocketUrl + ":" + port
+    const url = `ws://${envConfig.client.serverURL}:${port}`
     return createResponseBody(uuid, url);
 }
 
@@ -60,7 +60,7 @@ ginga.registerHandler(function (handle, message) {
 	let client = clients[handle];
 	if (client) {
 		client.send(JSON.stringify(message));
-        console.log(`Message to ${handle}\n${JSON.stringify(message)}`);
+        console.log(`Message to ${handle}\n${JSON.stringify(message)}\n\n`);
 	}
 });
 
@@ -74,7 +74,7 @@ function handleMessage(message, client) {
     const uuid = client.id;
 	const dataFromClient = JSON.parse(message.toString());
 	
-	console.log(`client ${uuid} sent message.`);
+	console.log(`client ${uuid} sent message\n ${message.toString()}\n\n`);
 	ginga.sendMessage(uuid, dataFromClient);
 }
 
