@@ -9,6 +9,8 @@ setAppData(envConfig.client.appID, envConfig.client.appBaseURL);
 
 
 function setAppData(appid, path) {
+	if (appid == null || path == null) return;
+
 	running_app_id = appid;
 	base_path = path;
 

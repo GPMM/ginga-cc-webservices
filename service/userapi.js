@@ -12,6 +12,8 @@ setUserData(envConfig.client.usrFilePath, envConfig.client.currentUser, envConfi
 
 
 function setUserData(fpath, current, service) {
+	if (fpath == null || current == null || service == null) return;
+
 	user_data_path = fpath;
 	current_user = current;
 	current_service = service;
