@@ -12,4 +12,6 @@ export SERVER_URL='192.168.68.103'
 # export CURRENT_USER='f626b4f2-d989-4fbf-9645-f830fd12b348'
 # export CURRENT_SERVICE='midiacom'
 
+export REMOTE_DEV_FILE_PATH='/gingaFiles/remote-devices/remoteDevices.json'
+
 npm start

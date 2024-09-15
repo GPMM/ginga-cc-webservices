@@ -23,6 +23,7 @@ const createWebSocket = (body) => {
         connection.on('message', (message) => handleMessage(message, connection));
         connection.on('close', () => {
             console.log(`${uuid} disconnected.`);
+            ginga.removeFromFile(uuid);
             // wsServer.close();
         });
 		
@@ -41,7 +42,8 @@ const deleteWebSocket = (handle) => {
     if (client) {
 		client.close();
         delete clients[handle];
-        console.log(`Client ${uuid} unregistered.`);
+        console.log(`Client ${handle} unregistered.`);
+        ginga.removeFromFile(handle);
     }
     return;
 }
