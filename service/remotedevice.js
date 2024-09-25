@@ -68,6 +68,7 @@ ginga.registerHandler(function (handle, message) {
 
 
 function handleRegister(uuid, body) {
+    ginga.addToFile(uuid, body);
 	ginga.sendMessage(uuid, body);
 }
 

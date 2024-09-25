@@ -43,10 +43,7 @@ function handleMessage(message) {
 
 
 function sendMessage(uuid, msg) {
-	if (ginga == null) {
-		addToFile(uuid, msg);
-		return;
-	}
+	if (ginga == null) return;
 
     ginga.send(JSON.stringify({
 		service: 'remotedevice',
@@ -66,6 +63,8 @@ function addToFile(uuid, msg) {
 
 function removeFromFile(uuid) {
 	let json_file = readFile();
+	if (json_file.devices.length == 0) return;
+
 	let index = 0;
 	while (json_file.devices[index].handle != uuid) {
 		index++;
@@ -111,6 +110,7 @@ function registerHandler(handler) {
 module.exports = {
 	registerHandler,
     sendMessage,
+	addToFile,
 	removeFromFile,
 	updateCurrentUser
 }
