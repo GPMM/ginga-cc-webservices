@@ -4,6 +4,7 @@ const envConfig = require('../config/env');
 const appl = require('./appfiles');
 const user = require('./userapi');
 
+var appId = envConfig.client.appID;
 var remoteDeviceHandler = null;
 var ginga = null;
 saveFile({ devices:[] });
@@ -34,6 +35,7 @@ function handleMessage(message) {
 	else if (service == 'appfiles') {
 		// update path for application files api
 		appl.setAppData(dataFromGinga.appid, dataFromGinga.path);
+		appId = dataFromGinga.appid;
 	}
 	else if (service == 'userapi') {
 		// update path for user data
@@ -49,6 +51,18 @@ function sendMessage(uuid, msg) {
 		service: 'remotedevice',
 		handle: uuid,
 		message: msg
+	}));
+}
+
+
+function sendAction(msg) {
+	console.log(msg);
+
+	if (ginga == null) return;
+
+    ginga.send(JSON.stringify({
+		service: 'node',
+		action: msg
 	}));
 }
 
@@ -108,8 +122,10 @@ function registerHandler(handler) {
 
 
 module.exports = {
+	appId,
 	registerHandler,
     sendMessage,
+	sendAction,
 	addToFile,
 	removeFromFile,
 	updateCurrentUser

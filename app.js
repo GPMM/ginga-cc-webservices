@@ -10,6 +10,7 @@ var remoteDeviceRouter = require('./routes/remotedevice');
 var appFilesRouter = require('./routes/appfiles');
 var userAPIRouter = require('./routes/userapi');
 var dtvAPIRouter = require('./routes/dtv');
+var nodesAPIRouter = require('./routes/nodes');
 
 var app = express();
 
@@ -48,6 +49,7 @@ app.use('/dtv/remote-device', remoteDeviceRouter);
 app.use('/dtv/current-service/apps', appFilesRouter);
 app.use('/dtv/current-service/user-api', userAPIRouter);
 app.use('/dtv', dtvAPIRouter);
+app.use('/tv3/current-service/apps', nodesAPIRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

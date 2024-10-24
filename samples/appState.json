@@ -1,0 +1,65 @@
+{
+    "nodes" : [
+        {
+            "id" : "M1",
+            "type" : "media",
+            "mimeType" : "video/mp4",
+
+            "presentationEvent" : {
+                "state" : "sleeping",
+                "occurrences" : 0
+            },
+
+            "attributionEvent" : {
+                "value" : null,
+                "state" : "sleeping",
+                "occurrences" : 0
+            },
+
+            "selectionEvent" : {
+                "state" : "sleeping",
+                "occurrences" : 0
+            },
+
+            "preparationEvent" : {
+                "prepared" : false,
+                "state" : "sleeping",
+                "occurrences" : 0
+            },
+
+            "interfaces" : []
+        },
+
+        {
+            "id" : "M2",
+            "type" : "media",
+            "mimeType" : "video/mp4",
+
+            "presentationEvent" : {
+                "state" : "occurring",
+                "occurrences" : 0
+            },
+
+            "attributionEvent" : {
+                "value" : 10,
+                "state" : "sleeping",
+                "occurrences" : 0
+            },
+
+            "selectionEvent" : {
+                "key" : null,
+                "state" : "sleeping",
+                "occurrences" : 1
+            },
+
+            "preparationEvent" : {
+                "prepared" : true,
+                "state" : "sleeping",
+                "occurrences" : 0
+            },
+
+            "interfaces" : []
+        }
+    ]
+}
+    

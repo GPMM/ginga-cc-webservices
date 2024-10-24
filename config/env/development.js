@@ -20,6 +20,7 @@ module.exports = {
 		currentUser: utils.parseAttrFromObject(process.env, 'CURRENT_USER', null).string(),
 		currentService: utils.parseAttrFromObject(process.env, 'CURRENT_SERVICE', null).string(),
 
-		remoteDeviceFilePath: utils.parseAttrFromObject(process.env, 'REMOTE_DEV_FILE_PATH', null).string()
+		remoteDeviceFilePath: utils.parseAttrFromObject(process.env, 'REMOTE_DEV_FILE_PATH', null).string(),
+		appStateFilePath: utils.parseAttrFromObject(process.env, 'APP_STATE_FILE_PATH', null).string()
     }
 };

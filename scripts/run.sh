@@ -13,5 +13,6 @@ export SERVER_URL='192.168.0.xx'
 # export CURRENT_SERVICE='midiacom'
 
 export REMOTE_DEV_FILE_PATH='../remoteDevices.json'
+export APP_STATE_FILE_PATH='../appState.json'
 
 npm start
