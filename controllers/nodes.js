@@ -28,11 +28,14 @@ exports.POSTNodes = (req, res, next) => {
     if (transition.eventType == "attribution" && !transition.value) {
         res.status(400).json(Errors.getError(101));
     }
+    if (transition.eventType == "attribution" && !transition.interface) {
+        res.status(400).json(Errors.getError(105));
+    }
 
     // If "eventType" has the values 'selection, voiceRecognition, handPoseRecognition,
     // faceExpressionRecognition, eyeGaze, touch', the "key" field shall be specified with the corresponding
     // key_value
-    if (userEvents.indexOf(transition.eventType) > -1 && !transition.key) {
+    if (userEvents.indexOf(transition.eventType) > -1 && !transition.value) {
         res.status(400).json(Errors.getError(101));
     }
 
@@ -65,7 +68,6 @@ function check101(body) {
     if (body.action && typeof body.action != "string") return true;
     if (body.interface && typeof body.interface != "string") return true;
     if (body.value && typeof body.value != "string") return true;
-    if (body.key && typeof body.key != "string") return true;
     if (body.user && typeof body.user != "string") return true;
 
     // the value of “action” is different from “start”, “stop”, “pause”, “resume”, “abort”, "select", "set”
@@ -84,7 +86,7 @@ function check101(body) {
 
 function check105(body) {
     if (body.eventType == "attribution" && !value) return true;
-    if (userEvents.indexOf(body.eventType) > -1 && !key) return true;
+    if (userEvents.indexOf(body.eventType) > -1 && !value) return true;
     return false;
 }
 
@@ -113,7 +115,7 @@ function buildTransition(body) {
     /* “interface” identifies the anchor, port, or property on which the action will be performed,
     in accordance with Annex A */
     if (body.interface) {
-        transition.intrface = body.interface;
+        transition.interface = body.interface;
     }
 
     /* "user" specifies the user id that has interacted if eventType is '"selection, voiceRecognition,
@@ -128,15 +130,15 @@ function buildTransition(body) {
         transition.value = body.value;
     }
 
-    /* If "eventType" has the values 'selection, voiceRecognition, handPoseRecognition,
-    faceExpressionRecognition, eyeGaze, touch', the "key" field shall be specified with the corresponding
-    key_value */
+    /* If "eventType" has the values 'selection, voiceRecognition, handPoseRecognition, 
+    faceExpressionRecognition, eyeGaze, touch', the "key" attribute shall be specified in the value
+    “field”. */
     if (userEvents.indexOf(transition.eventType) > -1) {
-        transition.key = body.key;
+        transition.value = body.value;
     }
 
-    if (transition.eventType == "selection" && !body.key) {
-        transition.key = "ENTER";
+    if (transition.eventType == "selection" && !body.value) {
+        transition.value = "ENTER";
     }
 
     return transition;
