@@ -32,25 +32,32 @@ function validateTransition(nodeid, transition) {
     else if (transition.eventType == "preparation" && node.preparationEvent) {
         return validateAction(transition.action, node.preparationEvent.state);
     }
-    else if (transition.eventType == "attribution" && node.attributionEvent) {
+    else if (transition.eventType == "attribution" && node.attributionEvent
+            && node.presentationEvent && node.presentationEvent.state == "occurring") {
         return validateAction(transition.action, node.attributionEvent.state);
     }
-    else if (transition.eventType == "selection" && node.selectionEvent) {
+    else if (transition.eventType == "selection" && node.selectionEvent
+            && node.presentationEvent && node.presentationEvent.state == "occurring") {
         return validateAction(transition.action, node.selectionEvent.state);
     }
-    else if (transition.eventType == "voiceRecognition" && node.voiceRecognitionEvent) {
+    else if (transition.eventType == "voiceRecognition" && node.voiceRecognitionEvent
+            && node.presentationEvent && node.presentationEvent.state == "occurring") {
         return validateAction(transition.action, node.voiceRecognitionEvent.state);
     }
-    else if (transition.eventType == "handPoseRecognition" && node.handPoseRecognitionEvent) {
+    else if (transition.eventType == "handPoseRecognition" && node.handPoseRecognitionEvent
+            && node.presentationEvent && node.presentationEvent.state == "occurring") {
         return validateAction(transition.action, node.handPoseRecognitionEvent.state);
     }
-    else if (transition.eventType == "faceExpressionRecognition" && node.faceExpressionRecognitionEvent) {
+    else if (transition.eventType == "faceExpressionRecognition" && node.faceExpressionRecognitionEvent
+            && node.presentationEvent && node.presentationEvent.state == "occurring") {
         return validateAction(transition.action, node.faceExpressionRecognitionEvent.state);
     }
-    else if (transition.eventType == "eyeGaze" && node.eyeGazeEvent) {
+    else if (transition.eventType == "eyeGaze" && node.eyeGazeEvent
+            && node.presentationEvent && node.presentationEvent.state == "occurring") {
         return validateAction(transition.action, node.eyeGazeEvent.state);
     }
-    else if (transition.eventType == "touch" && node.touchEvent) {
+    else if (transition.eventType == "touch" && node.touchEvent
+            && node.presentationEvent && node.presentationEvent.state == "occurring") {
         return validateAction(transition.action, node.touchEvent.state);
     }
     return false;
@@ -152,7 +159,6 @@ function sendActionToGinga(nodeid, transition) {
     }
     if (transition.value) action.value = transition.value;
     if (transition.user) action.user = transition.user;
-    if (transition.key) action.key = transition.key;
 
     if (transition.action == "select" || transition.action == "set") {
         action.action = "start";
