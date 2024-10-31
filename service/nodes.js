@@ -161,13 +161,13 @@ function sendActionToGinga(nodeid, transition) {
     if (transition.user) action.user = transition.user;
 
     if (transition.action == "select" || transition.action == "set") {
-        action.action = "start";
+        action.action = "starts";
         ginga.sendAction(action);
-        action.action = "stop";
+        action.action = "stops";
         ginga.sendAction(action);
     }
     else {
-        action.action = transition.action;
+        action.action = transition.action + "s";
         ginga.sendAction(action);
     }
 }

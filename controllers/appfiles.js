@@ -47,7 +47,6 @@ function replyStream(res, range, file_data) {
 	else {
 		res.setHeader('Content-Length', file_data.size);
 		res.setHeader('Content-Type', file_data.mime);
-		console.log('melecas fritas');
 		res.writeHead(200);
 		fs.createReadStream(file_data.path).pipe(res);
 	}

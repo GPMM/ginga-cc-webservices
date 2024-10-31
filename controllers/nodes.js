@@ -14,22 +14,35 @@ exports.POSTNodes = (req, res, next) => {
     const nodeId = req.params.nodeid;
     const body = req.body;
 
-    if (check101(body)) res.status(400).json(Errors.getError(101));
-    if (check105(body)) res.status(400).json(Errors.getError(105));
-    if (!nodesService.validateAppId(appId)) res.status(400).json(Errors.getError(305));
-    if (!nodesService.validateNodeId(nodeId)) res.status(400).json(Errors.getError(305));
+    if (check101(body)) {
+        res.status(400).json(Errors.getError(101));
+        return;
+    }
+    if (check105(body)) {
+        res.status(400).json(Errors.getError(105));
+        return;
+    }
+    if (!nodesService.validateAppId(appId)) {
+        res.status(400).json(Errors.getError(305));
+        return;
+    }
+    if (!nodesService.validateNodeId(nodeId)) {
+        res.status(400).json(Errors.getError(305));
+        return;
+    }
 
     // Build the complete transition for checking other errors and executing it
     let transition = buildTransition(body);
-    console.log(transition);
 
     // If “eventType” has the value ‘attribution’ or "action" is 'set', the “value” field shall be
     // specified with the value to be assigned
     if (transition.eventType == "attribution" && !transition.value) {
         res.status(400).json(Errors.getError(101));
+        return;
     }
     if (transition.eventType == "attribution" && !transition.interface) {
         res.status(400).json(Errors.getError(105));
+        return;
     }
 
     // If "eventType" has the values 'selection, voiceRecognition, handPoseRecognition,
@@ -37,18 +50,22 @@ exports.POSTNodes = (req, res, next) => {
     // key_value
     if (userEvents.indexOf(transition.eventType) > -1 && !transition.value) {
         res.status(400).json(Errors.getError(101));
+        return;
     }
 
     // if the combination of “action” and “eventType” is not applicable.
     if (transition.eventType != "selection" && transition.action == "select") {
         res.status(400).json(Errors.getError(101));
+        return;
     }
     if (transition.eventType != "attribution" && transition.action == "set") {
         res.status(400).json(Errors.getError(101));
+        return;
     }
     // the “action” cannot be performed due to the node’s current state or other preconditions
     if (!nodesService.validateTransition(nodeId, transition)) {
         res.status(400).json(Errors.getError(101));
+        return;
     }
 
     // executes the transition sending actions to Ginga

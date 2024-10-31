@@ -56,8 +56,6 @@ function sendMessage(uuid, msg) {
 
 
 function sendAction(msg) {
-	console.log(msg);
-
 	if (ginga == null) return;
 
     ginga.send(JSON.stringify({
