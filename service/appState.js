@@ -9,7 +9,7 @@ function setNodes(appNodes) {
 
     for (let i = 0; i < nodes.length; i++) {
         idMap[nodes[i].id] = i;
-        for (let j = 0; j < nodes[i].interfaces; j++) {
+        for (let j = 0; j < nodes[i].interfaces.length; j++) {
             idMap[nodes[i].id + '.' + nodes[i].interfaces[j].id] = j;
         }
     }
