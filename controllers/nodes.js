@@ -69,10 +69,10 @@ exports.POSTNodes = (req, res, next) => {
     }
 
     // executes the transition sending actions to Ginga
-    nodesService.sendActionToGinga(nodeId, transition);
+    let ac = nodesService.sendActionToGinga(nodeId, transition);
     
     // build the response
-    response = nodesService.generateResponse(nodeId, transition);
+    response = nodesService.generateResponse(ac);
     res.status(200).json(response);
 };
 

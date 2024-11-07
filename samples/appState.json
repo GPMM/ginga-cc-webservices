@@ -10,17 +10,6 @@
                 "occurrences" : 0
             },
 
-            "attributionEvent" : {
-                "value" : null,
-                "state" : "sleeping",
-                "occurrences" : 0
-            },
-
-            "selectionEvent" : {
-                "state" : "sleeping",
-                "occurrences" : 0
-            },
-
             "preparationEvent" : {
                 "prepared" : false,
                 "state" : "sleeping",
@@ -38,18 +27,6 @@
             "presentationEvent" : {
                 "state" : "occurring",
                 "occurrences" : 0
-            },
-
-            "attributionEvent" : {
-                "value" : 10,
-                "state" : "sleeping",
-                "occurrences" : 0
-            },
-
-            "selectionEvent" : {
-                "key" : null,
-                "state" : "sleeping",
-                "occurrences" : 1
             },
 
             "preparationEvent" : {

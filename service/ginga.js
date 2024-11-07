@@ -3,6 +3,7 @@ const fs = require('fs');
 const envConfig = require('../config/env');
 const appl = require('./appfiles');
 const user = require('./userapi');
+const appState = require('./appState');
 
 var appId = envConfig.client.appID;
 var remoteDeviceHandler = null;
@@ -40,6 +41,12 @@ function handleMessage(message) {
 	else if (service == 'userapi') {
 		// update path for user data
 		user.setUserData(dataFromGinga.path, dataFromGinga.currentUser, dataFromGinga.currentService)
+	}
+	else if (service == 'node-map') {
+		appState.setNodes(dataFromGinga.nodes);
+	}
+	else if (service == 'node-update') {
+		appState.updateAppState(dataFromGinga);
 	}
 }
 
